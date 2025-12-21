@@ -1,0 +1,197 @@
+{
+    "profile": {
+        "name": "Kathir G",
+        "title": "Computer Science Engineering Student | Aspiring Full Stack Developer",
+        "phone": "+91 8248805628",
+        "email": "kathirganesan11@gmail.com",
+        "linkedin": "kathir-ganesan",
+        "github": "Kathir2911",
+        "bio": "Passionate Computer Science Engineering student with hands-on experience in full-stack development. Skilled in building dynamic web applications using modern frameworks and technologies."
+    },
+    "education": [
+        {
+            "id": 1,
+            "institution": "St. Joseph's College of Engineering, Chennai",
+            "degree": "B.E Computer Science and Engineering",
+            "cgpa": "8.80",
+            "year": "2027",
+            "current": true
+        },
+        {
+            "id": 2,
+            "institution": "Paramakudi Lions Matriculation Higher Secondary School, Paramakudi",
+            "degree": "12th Grade, State Board",
+            "percentage": "87.67%",
+            "year": "2022",
+            "current": false
+        },
+        {
+            "id": 3,
+            "institution": "Paramakudi Lions Matriculation Higher Secondary School, Paramakudi",
+            "degree": "10th Grade, State Board",
+            "percentage": "92.8%",
+            "year": "2022",
+            "current": false
+        }
+    ],
+    "projects": [
+        {
+            "id": 1,
+            "title": "Firebase Studio - Next.js Blog Platform",
+            "description": "Built a full-stack blog platform supporting authentication, content management, and user comments. Integrated GitHub notifications and OTP-based server verification for secure access. Designed an API explorer enabling developers to interact with the platform programmatically.",
+            "technologies": [
+                "Next.js",
+                "MongoDB",
+                "Tailwind CSS",
+                "Twilio"
+            ],
+            "github": "https://github.com/Kathir2911",
+            "date": "August 2025",
+            "highlights": [
+                "Full-stack blog platform with authentication and content management",
+                "GitHub notifications and OTP-based verification",
+                "API explorer for programmatic interaction"
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Ecommerce AI - Flipkart & Amazon Price Comparison",
+            "description": "Built a full-stack app to compare Amazon and Flipkart prices using RapidAPI. Implemented a secure backend proxy and a responsive React UI. Added an optional AI shopping assistant and deployed with environment-based configs.",
+            "technologies": [
+                "React",
+                "Node/Express",
+                "RapidAPI"
+            ],
+            "github": "https://github.com/Kathir2911",
+            "date": "December 2025",
+            "highlights": [
+                "Price comparison across major e-commerce platforms",
+                "Secure backend proxy with RapidAPI integration",
+                "AI shopping assistant feature",
+                "Responsive React UI"
+            ]
+        },
+        {
+            "id": 3,
+            "title": "Dynamic Book to Story Adaptor",
+            "description": "Developed an AI-powered tool that transforms books into interactive 'what-if' narratives using Weaviate embeddings and GPT. Implemented PDF upload, chapter parsing, and a responsive Angular UI with seamless Node.js/Express integration.",
+            "technologies": [
+                "Angular",
+                "Node.js",
+                "Weaviate",
+                "OpenAI GPT API"
+            ],
+            "github": "https://github.com/Kathir2911",
+            "date": "Present",
+            "highlights": [
+                "AI-powered book transformation into interactive narratives",
+                "PDF upload and chapter parsing",
+                "Weaviate embeddings integration",
+                "Responsive Angular UI"
+            ]
+        }
+    ],
+    "experience": [
+        {
+            "id": 1,
+            "role": "Web Development Intern",
+            "company": "F-Next Solutions, Coimbatore",
+            "duration": "June 2025 - July 2025",
+            "description": "Developed 4 real-world projects including a portfolio, bakery website, calculator, and click counter using React, CSS3, JavaScript, Git, and GitHub. Designed responsive UIs, implemented DOM logic, and practiced agile collaboration. Attended sessions on React.js, debugging practices, and participated in a frontend quiz event.",
+            "technologies": [
+                "React",
+                "CSS3",
+                "JavaScript",
+                "Git",
+                "GitHub"
+            ],
+            "highlights": [
+                "Developed 4 real-world projects",
+                "Designed responsive UIs and implemented DOM logic",
+                "Practiced agile collaboration",
+                "Attended React.js and debugging sessions"
+            ]
+        },
+        {
+            "id": 2,
+            "role": "Data Analysis Intern",
+            "company": "Main Flow Services and Technologies Pvt. Ltd.",
+            "duration": "Aug 2024 - Oct 2024",
+            "description": "Analyzed datasets using Python to extract insights. Worked on data preprocessing and visualization. Collaborated with teams to understand workflows.",
+            "technologies": [
+                "Python",
+                "Data Analysis",
+                "Visualization"
+            ],
+            "highlights": [
+                "Analyzed datasets using Python",
+                "Data preprocessing and visualization",
+                "Team collaboration on workflows"
+            ]
+        }
+    ],
+    "skills": {
+        "languages": [
+            "Java",
+            "Python",
+            "JavaScript",
+            "C#",
+            "HTML/CSS",
+            "MySQL"
+        ],
+        "frameworks": [
+            "Express.js",
+            "React.js",
+            "Mongoose"
+        ],
+        "tools": [
+            "Git",
+            "Postman",
+            "MongoDB Atlas"
+        ],
+        "platforms": [
+            "GitHub",
+            "VS Code",
+            "Jupyter Notebook",
+            "MySQL Workbench",
+            "Figma"
+        ]
+    },
+    "certifications": [
+        {
+            "id": 1,
+            "name": "Python for Data Science",
+            "provider": "NPTEL",
+            "date": "March 2025",
+            "link": ""
+        },
+        {
+            "id": 2,
+            "name": "Foundational C# with Microsoft",
+            "provider": "freeCodeCamp",
+            "date": "April 2025",
+            "link": ""
+        },
+        {
+            "id": 3,
+            "name": "Introduction to Algorithm and Analysis",
+            "provider": "NPTEL",
+            "date": "November 2024",
+            "link": ""
+        },
+        {
+            "id": 4,
+            "name": "Google AI Essentials",
+            "provider": "Coursera",
+            "date": "October 2024",
+            "link": ""
+        },
+        {
+            "id": 5,
+            "name": "Postman API Fundamentals Student Expert",
+            "provider": "Postman",
+            "date": "October 2024",
+            "link": ""
+        }
+    ]
+}

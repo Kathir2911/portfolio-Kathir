@@ -1,0 +1,61 @@
+.education-timeline {
+    margin-top: var(--spacing-lg);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.education-item {
+    background: var(--bg-card);
+    border-left: 3px solid var(--accent-cyan);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+    transition: all var(--transition-base);
+}
+
+.education-item:hover {
+    background: var(--bg-card-hover);
+    transform: translateX(8px);
+    box-shadow: var(--shadow-glow);
+}
+
+.education-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+}
+
+.education-school {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.education-degree {
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+.education-grade {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+.education-year {
+    color: var(--accent-cyan);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .education-header {
+        flex-direction: column;
+    }
+
+    .education-year {
+        white-space: normal;
+    }
+}
