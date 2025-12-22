@@ -16,10 +16,6 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the Portfolio API' });
-});
-
 // ============ PROFILE ENDPOINTS ============
 app.get('/api/profile', async (req, res) => {
   try {
