@@ -8,11 +8,12 @@
 
 .skills-category h3 {
     font-size: 1rem;
-    color: var(--accent-cyan);
+    color: #8b5cf6;
     margin-bottom: var(--spacing-md);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 600;
+    text-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
 }
 
 .skills-list {
@@ -22,19 +23,35 @@
 }
 
 .skill-item {
+    --accent-color: #8b5cf6;
+    --shadow-color: rgba(139, 92, 246, 0.5);
+
     padding: var(--spacing-xs) var(--spacing-md);
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
+    background: rgba(26, 27, 38, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.05);
     border-radius: var(--radius-md);
     color: var(--text-secondary);
     font-weight: 500;
-    transition: all var(--transition-fast);
+    transition: all var(--transition-smooth);
     cursor: default;
 }
 
 .skill-item:hover {
-    border-color: var(--accent-cyan);
-    color: var(--accent-cyan);
+    border-color: var(--accent-color);
+    color: white;
     transform: translateY(-2px);
-    box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+    box-shadow: 0 0 20px var(--shadow-color);
+    background: rgba(139, 92, 246, 0.15);
+}
+
+#skills h2::after {
+    background: #8b5cf6;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+}
+
+#skills h2 {
+    text-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
 }

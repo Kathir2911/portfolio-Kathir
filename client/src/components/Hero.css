@@ -4,25 +4,28 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: radial-gradient(ellipse at top, rgba(0, 217, 255, 0.05) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom, rgba(180, 126, 255, 0.05) 0%, transparent 50%);
+    position: relative;
 }
 
 .hero-content {
     max-width: 800px;
+    z-index: 2;
 }
 
 .hero-subtitle {
     font-size: clamp(1.1rem, 2vw, 1.3rem);
-    color: var(--text-secondary);
-    margin-bottom: var(--spacing-md);
-    font-weight: 400;
+    color: var(--accent-cyan);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
 }
 
 .hero-description {
-    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
-    color: var(--text-muted);
-    margin-bottom: var(--spacing-xl);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--text-secondary);
+    margin: var(--spacing-lg) auto var(--spacing-xl);
     line-height: 1.8;
 }
 
@@ -37,27 +40,38 @@
 .contact-link {
     display: inline-flex;
     align-items: center;
-    gap: var(--spacing-xs);
-    padding: var(--spacing-sm) var(--spacing-md);
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    color: var(--text-secondary);
-    font-weight: 500;
-    transition: all var(--transition-base);
+    gap: var(--spacing-sm);
+    padding: 0.8rem 1.75rem;
+    background: rgba(26, 27, 38, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    color: var(--text-primary);
+    font-weight: 600;
+    transition: all var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
 }
 
 .contact-link:hover {
     border-color: var(--accent-cyan);
-    box-shadow: var(--shadow-glow);
-    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow-intense);
+    transform: translateY(-4px);
     color: var(--accent-cyan);
+    background: rgba(0, 217, 255, 0.05);
 }
 
 .contact-link svg {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
+    transition: transform var(--transition-base);
 }
+
+.contact-link:hover svg {
+    transform: scale(1.1) rotate(-5deg);
+}
+
 
 @media (max-width: 768px) {
     .hero {
@@ -68,4 +82,39 @@
         flex-direction: column;
         align-items: stretch;
     }
+}
+
+/* Resume Button Styles */
+.resume-container {
+    margin-top: var(--spacing-xl);
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.resume-btn {
+    display: inline-block;
+    padding: 0.8rem 2.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--bg-primary);
+    /* Dark text for contrast on gradient */
+    background: var(--accent-gradient);
+    border-radius: 50px;
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+    transition: all var(--transition-smooth);
+    position: relative;
+    z-index: 10;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+.resume-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 0 2px rgba(0, 217, 255, 0.4), 0 0 20px rgba(0, 217, 255, 0.3);
+    /* Outer border glow */
+    filter: none;
 }

@@ -46,11 +46,18 @@ function Projects() {
                                     ))}
                                 </ul>
                             )}
-                            {project.github && (
-                                <a href={project.github} target="_blank" rel="noopener noreferrer" className="project-link">
-                                    View on GitHub →
-                                </a>
-                            )}
+                            <div className="project-links">
+                                {project.github && (
+                                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="project-link">
+                                        Source Code
+                                    </a>
+                                )}
+                                {project.link && (
+                                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link live-demo">
+                                        Live Demo
+                                    </a>
+                                )}
+                            </div>
                         </div>
                     ))}
                 </div>

@@ -6,18 +6,29 @@
 }
 
 .education-item {
-    background: var(--bg-card);
-    border-left: 3px solid var(--accent-cyan);
+    --accent-color: #10b981;
+    --shadow-color: rgba(16, 185, 129, 0.5);
+
+    background: rgba(26, 27, 38, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(16, 185, 129, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 5px rgba(16, 185, 129, 0.03);
+    border-left: 4px solid var(--accent-color);
     padding: var(--spacing-md);
     border-radius: var(--radius-md);
     margin-bottom: var(--spacing-md);
-    transition: all var(--transition-base);
+    transition: all var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
 }
 
 .education-item:hover {
-    background: var(--bg-card-hover);
-    transform: translateX(8px);
-    box-shadow: var(--shadow-glow);
+    background: rgba(31, 32, 48, 0.6);
+    transform: translateX(12px) scale(1.01);
+    box-shadow: 0 0 20px var(--shadow-color);
+    border-left-color: var(--accent-color);
+    border-color: var(--accent-color);
 }
 
 .education-header {
@@ -45,9 +56,18 @@
 }
 
 .education-year {
-    color: var(--accent-cyan);
+    color: var(--accent-color);
     font-weight: 600;
     white-space: nowrap;
+}
+
+#education h2::after {
+    background: #10b981;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+}
+
+#education h2 {
+    text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
 }
 
 @media (max-width: 768px) {

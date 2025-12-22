@@ -33,6 +33,16 @@ function Certifications() {
                                 <div>
                                     <h3 className="cert-name">{cert.name}</h3>
                                     <p className="cert-provider">{cert.provider}</p>
+                                    {cert.link && (
+                                        <a
+                                            href={cert.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="cert-link"
+                                        >
+                                            View Certificate
+                                        </a>
+                                    )}
                                 </div>
                                 <span className="cert-date">{cert.date}</span>
                             </div>

@@ -57,6 +57,13 @@ function Hero() {
                         GitHub
                     </a>
                 </div>
+                {profile.resume && (
+                    <div className="resume-container">
+                        <a href={profile.resume} target="_blank" rel="noopener noreferrer" className="resume-btn">
+                            View Resume
+                        </a>
+                    </div>
+                )}
             </div>
         </section>
     );

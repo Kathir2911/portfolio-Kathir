@@ -7,6 +7,7 @@ const profileSchema = new mongoose.Schema({
     email: { type: String, required: true },
     linkedin: String,
     github: String,
+    resume: String,
     bio: String,
 }, { timestamps: true });
 
@@ -52,9 +53,16 @@ const certificationSchema = new mongoose.Schema({
     link: String,
 }, { timestamps: true });
 
+const clientSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    logo: { type: String, required: true },
+    link: String,
+}, { timestamps: true });
+
 export const Profile = mongoose.model('Profile', profileSchema);
 export const Education = mongoose.model('Education', educationSchema);
 export const Project = mongoose.model('Project', projectSchema);
 export const Experience = mongoose.model('Experience', experienceSchema);
 export const Skills = mongoose.model('Skills', skillsSchema);
 export const Certification = mongoose.model('Certification', certificationSchema);
+export const Client = mongoose.model('Client', clientSchema);

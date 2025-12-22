@@ -3,16 +3,21 @@ import { portfolioAPI } from './api/portfolio';
 import './App.css';
 
 function App() {
-    const [activeTab, setActiveTab] = useState('projects');
+    const [activeTab, setActiveTab] = useState('profile');
+    const [profile, setProfile] = useState(null);
     const [projects, setProjects] = useState([]);
     const [certifications, setCertifications] = useState([]);
     const [experience, setExperience] = useState([]);
     const [education, setEducation] = useState([]);
+    const [clients, setClients] = useState([]);
     const [loading, setLoading] = useState(false);
 
     // Form states
+    const [profileForm, setProfileForm] = useState({
+        name: '', title: '', bio: '', email: '', phone: '', linkedin: '', github: '', resume: ''
+    });
     const [projectForm, setProjectForm] = useState({
-        title: '', description: '', technologies: '', github: '', date: '', highlights: ''
+        title: '', description: '', technologies: '', github: '', link: '', date: '', highlights: ''
     });
     const [certForm, setCertForm] = useState({
         name: '', provider: '', date: '', link: ''
@@ -22,6 +27,9 @@ function App() {
     });
     const [eduForm, setEduForm] = useState({
         institution: '', degree: '', cgpa: '', percentage: '', year: '', current: false
+    });
+    const [clientForm, setClientForm] = useState({
+        name: '', logo: '', link: ''
     });
 
     const [editingId, setEditingId] = useState(null);
@@ -33,7 +41,22 @@ function App() {
     const fetchData = async () => {
         setLoading(true);
         try {
-            if (activeTab === 'projects') {
+            if (activeTab === 'profile') {
+                const res = await portfolioAPI.getProfile();
+                setProfile(res.data);
+                if (res.data) {
+                    setProfileForm({
+                        name: res.data.name || '',
+                        title: res.data.title || '',
+                        bio: res.data.bio || '',
+                        email: res.data.email || '',
+                        phone: res.data.phone || '',
+                        linkedin: res.data.linkedin || '',
+                        github: res.data.github || '',
+                        resume: res.data.resume || ''
+                    });
+                }
+            } else if (activeTab === 'projects') {
                 const res = await portfolioAPI.getProjects();
                 setProjects(res.data);
             } else if (activeTab === 'certifications') {
@@ -45,10 +68,29 @@ function App() {
             } else if (activeTab === 'education') {
                 const res = await portfolioAPI.getEducation();
                 setEducation(res.data);
+            } else if (activeTab === 'clients') {
+                const res = await portfolioAPI.getClients();
+                setClients(res.data);
             }
         } catch (error) {
             console.error('Error fetching data:', error);
             alert('Error fetching data');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Profile handler
+    const handleProfileSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            await portfolioAPI.updateProfile(profileForm);
+            alert('Profile updated!');
+            fetchData();
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            alert('Error updating profile');
         } finally {
             setLoading(false);
         }
@@ -102,6 +144,7 @@ function App() {
             description: project.description,
             technologies: project.technologies.join(', '),
             github: project.github || '',
+            link: project.link || '',
             date: project.date,
             highlights: project.highlights.join('\n')
         });
@@ -109,7 +152,7 @@ function App() {
     };
 
     const resetProjectForm = () => {
-        setProjectForm({ title: '', description: '', technologies: '', github: '', date: '', highlights: '' });
+        setProjectForm({ title: '', description: '', technologies: '', github: '', link: '', date: '', highlights: '' });
         setEditingId(null);
     };
 
@@ -271,6 +314,54 @@ function App() {
         setEditingId(null);
     };
 
+    // Client handlers
+    const handleClientSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            if (editingId) {
+                await portfolioAPI.updateClient(editingId, clientForm);
+            } else {
+                await portfolioAPI.addClient(clientForm);
+            }
+            resetClientForm();
+            fetchData();
+            alert(editingId ? 'Client updated!' : 'Client added!');
+        } catch (error) {
+            alert('Error saving client');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleDeleteClient = async (id) => {
+        if (!confirm('Delete this client?')) return;
+        setLoading(true);
+        try {
+            await portfolioAPI.deleteClient(id);
+            fetchData();
+            alert('Client deleted!');
+        } catch (error) {
+            alert('Error deleting client');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const editClient = (client) => {
+        setClientForm({
+            name: client.name,
+            logo: client.logo,
+            link: client.link || ''
+        });
+        setEditingId(client._id);
+    };
+
+    const resetClientForm = () => {
+        setClientForm({ name: '', logo: '', link: '' });
+        setEditingId(null);
+    };
+
     return (
         <div className="admin-panel">
             <div className="admin-header">
@@ -279,6 +370,9 @@ function App() {
             </div>
 
             <div className="admin-tabs">
+                <button className={activeTab === 'profile' ? 'active' : ''} onClick={() => setActiveTab('profile')}>
+                    Profile
+                </button>
                 <button className={activeTab === 'projects' ? 'active' : ''} onClick={() => setActiveTab('projects')}>
                     Projects
                 </button>
@@ -291,9 +385,77 @@ function App() {
                 <button className={activeTab === 'education' ? 'active' : ''} onClick={() => setActiveTab('education')}>
                     Education
                 </button>
+                <button className={activeTab === 'clients' ? 'active' : ''} onClick={() => setActiveTab('clients')}>
+                    Clients
+                </button>
             </div>
 
             <div className="admin-content">
+                {/* PROFILE TAB */}
+                {activeTab === 'profile' && (
+                    <div className="admin-section">
+                        <h2>Personal Details</h2>
+                        <form onSubmit={handleProfileSubmit} className="admin-form">
+                            <input
+                                type="text"
+                                placeholder="Full Name"
+                                value={profileForm.name}
+                                onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
+                                required
+                            />
+                            <input
+                                type="text"
+                                placeholder="Job Title"
+                                value={profileForm.title}
+                                onChange={(e) => setProfileForm({ ...profileForm, title: e.target.value })}
+                                required
+                            />
+                            <textarea
+                                placeholder="Bio"
+                                value={profileForm.bio}
+                                onChange={(e) => setProfileForm({ ...profileForm, bio: e.target.value })}
+                                rows="4"
+                            />
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                value={profileForm.email}
+                                onChange={(e) => setProfileForm({ ...profileForm, email: e.target.value })}
+                                required
+                            />
+                            <input
+                                type="text"
+                                placeholder="Phone"
+                                value={profileForm.phone}
+                                onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
+                            />
+                            <input
+                                type="text"
+                                placeholder="LinkedIn Username"
+                                value={profileForm.linkedin}
+                                onChange={(e) => setProfileForm({ ...profileForm, linkedin: e.target.value })}
+                            />
+                            <input
+                                type="text"
+                                placeholder="GitHub Username"
+                                value={profileForm.github}
+                                onChange={(e) => setProfileForm({ ...profileForm, github: e.target.value })}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Resume URL (Link to PDF/Drive)"
+                                value={profileForm.resume}
+                                onChange={(e) => setProfileForm({ ...profileForm, resume: e.target.value })}
+                            />
+                            <div className="form-actions">
+                                <button type="submit" disabled={loading}>
+                                    {loading ? 'Saving...' : 'Save Profile'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                )}
+
                 {/* PROJECTS TAB */}
                 {activeTab === 'projects' && (
                     <div className="admin-section">
@@ -321,9 +483,15 @@ function App() {
                             />
                             <input
                                 type="text"
-                                placeholder="GitHub URL (optional)"
+                                placeholder="Source Code URL (GitHub)"
                                 value={projectForm.github}
                                 onChange={(e) => setProjectForm({ ...projectForm, github: e.target.value })}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Live Demo URL"
+                                value={projectForm.link}
+                                onChange={(e) => setProjectForm({ ...projectForm, link: e.target.value })}
                             />
                             <input
                                 type="text"
@@ -564,6 +732,61 @@ function App() {
                                     <div className="item-actions">
                                         <button onClick={() => editEdu(edu)} className="edit-btn">Edit</button>
                                         <button onClick={() => handleDeleteEdu(edu._id)} className="delete-btn">Delete</button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* CLIENTS TAB */}
+                {activeTab === 'clients' && (
+                    <div className="admin-section">
+                        <h2>{editingId ? 'Edit Client' : 'Add New Client'}</h2>
+                        <form onSubmit={handleClientSubmit} className="admin-form">
+                            <input
+                                type="text"
+                                placeholder="Client Name"
+                                value={clientForm.name}
+                                onChange={(e) => setClientForm({ ...clientForm, name: e.target.value })}
+                                required
+                            />
+                            <input
+                                type="text"
+                                placeholder="Logo URL (Image Link)"
+                                value={clientForm.logo}
+                                onChange={(e) => setClientForm({ ...clientForm, logo: e.target.value })}
+                                required
+                            />
+                            <input
+                                type="text"
+                                placeholder="Website Link (optional)"
+                                value={clientForm.link}
+                                onChange={(e) => setClientForm({ ...clientForm, link: e.target.value })}
+                            />
+                            <div className="form-actions">
+                                <button type="submit" disabled={loading}>
+                                    {loading ? 'Saving...' : (editingId ? 'Update Client' : 'Add Client')}
+                                </button>
+                                {editingId && (
+                                    <button type="button" onClick={resetClientForm} className="cancel-btn">
+                                        Cancel
+                                    </button>
+                                )}
+                            </div>
+                        </form>
+
+                        <h2>Existing Clients</h2>
+                        <div className="items-list" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
+                            {clients.map(client => (
+                                <div key={client._id} className="item-card">
+                                    <div style={{ padding: '10px', background: '#fff', borderRadius: '4px', textAlign: 'center', marginBottom: '10px' }}>
+                                        <img src={client.logo} alt={client.name} style={{ maxHeight: '50px', maxWidth: '100%' }} />
+                                    </div>
+                                    <h3>{client.name}</h3>
+                                    <div className="item-actions">
+                                        <button onClick={() => editClient(client)} className="edit-btn">Edit</button>
+                                        <button onClick={() => handleDeleteClient(client._id)} className="delete-btn">Delete</button>
                                     </div>
                                 </div>
                             ))}

@@ -5,11 +5,14 @@
   --bg-card-hover: #1f2030;
   --accent-cyan: #00d9ff;
   --accent-purple: #b47eff;
+  --accent-pink: #ff6ec7;
   --accent-gradient: linear-gradient(135deg, #00d9ff 0%, #b47eff 100%);
+  --accent-gradient-alt: linear-gradient(135deg, #b47eff 0%, #ff6ec7 100%);
   --text-primary: #e4e4e7;
   --text-secondary: #a1a1aa;
   --text-muted: #71717a;
   --border-color: #27272a;
+  --border-glow: rgba(0, 217, 255, 0.3);
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
   --spacing-md: 1.5rem;
@@ -20,10 +23,33 @@
   --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
+  --transition-smooth: 350ms cubic-bezier(0.4, 0, 0.2, 1);
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
+
+  /* Modern Glow Effects */
   --shadow-glow: 0 0 20px rgba(0, 217, 255, 0.15);
+  --shadow-glow-intense:
+    0 0 20px rgba(0, 217, 255, 0.3),
+    0 0 40px rgba(0, 217, 255, 0.2),
+    0 0 60px rgba(0, 217, 255, 0.1);
+  --shadow-glow-purple:
+    0 0 20px rgba(180, 126, 255, 0.3),
+    0 0 40px rgba(180, 126, 255, 0.2),
+    0 0 60px rgba(180, 126, 255, 0.1);
+  --shadow-glow-pink:
+    0 0 20px rgba(255, 110, 199, 0.3),
+    0 0 40px rgba(255, 110, 199, 0.2),
+    0 0 60px rgba(255, 110, 199, 0.1);
+  --shadow-card-glow:
+    0 4px 20px rgba(0, 217, 255, 0.1),
+    0 8px 40px rgba(180, 126, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-elevated:
+    0 10px 40px rgba(0, 0, 0, 0.4),
+    0 0 60px rgba(0, 217, 255, 0.15),
+    0 0 100px rgba(180, 126, 255, 0.1);
 }
 
 * {
@@ -40,6 +66,26 @@ html {
   box-sizing: border-box;
 }
 
+/* Custom Glowing Scrollbar (Side Movement Bar) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-gradient);
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-gradient-alt);
+  box-shadow: 0 0 15px var(--accent-pink);
+}
+
 body {
   font-family: var(--font-body);
   background: var(--bg-primary);
@@ -52,12 +98,48 @@ body {
   align-items: center;
   min-height: 100vh;
   overflow-x: hidden;
+  position: relative;
+}
+
+/* Unified Cinematic Ambient Glow */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(0, 217, 255, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 85% 30%, rgba(180, 126, 255, 0.1) 0%, transparent 45%),
+    radial-gradient(circle at 50% 100%, rgba(0, 217, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 0% 80%, rgba(255, 110, 199, 0.07) 0%, transparent 40%);
+  animation: floatingGlow 6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 70% 70%, rgba(0, 217, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 30% 85%, rgba(180, 126, 255, 0.06) 0%, transparent 45%);
+  animation: floatingGlow 8s ease-in-out infinite reverse;
+  pointer-events: none;
+  z-index: 0;
 }
 
 #root {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 h1,
@@ -71,12 +153,27 @@ h6 {
   line-height: 1.2;
 }
 
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: var(--accent-gradient);
+  z-index: 2000;
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.6), 0 0 40px rgba(0, 217, 255, 0.4);
+  transition: width 0.1s ease-out;
+  border-radius: 0 4px 4px 0;
+}
+
+
 h1 {
   font-size: clamp(2.5rem, 5vw, 4rem);
   background: var(--accent-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  filter: drop-shadow(0 0 30px rgba(0, 217, 255, 0.4));
+  animation: subtleGlow 2s ease-in-out infinite alternate;
 }
 
 h2 {
@@ -84,6 +181,8 @@ h2 {
   margin-bottom: var(--spacing-lg);
   position: relative;
   display: inline-block;
+  color: var(--text-primary);
+  text-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
 }
 
 h2::after {
@@ -92,13 +191,20 @@ h2::after {
   bottom: -0.5rem;
   left: 0;
   width: 60%;
-  height: 3px;
+  height: 4px;
   background: var(--accent-gradient);
-  border-radius: 2px;
+  border-radius: 4px;
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.5);
+  transition: width var(--transition-smooth);
+}
+
+h2:hover::after {
+  width: 100%;
 }
 
 h3 {
   font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  color: var(--text-primary);
 }
 
 p {
@@ -109,11 +215,12 @@ p {
 a {
   color: var(--accent-cyan);
   text-decoration: none;
-  transition: color var(--transition-fast);
+  transition: all var(--transition-fast);
 }
 
 a:hover {
   color: var(--accent-purple);
+  text-shadow: 0 0 10px rgba(180, 126, 255, 0.5);
 }
 
 .container {
@@ -127,8 +234,11 @@ a:hover {
 
 section {
   padding: var(--spacing-2xl) 0;
-  animation: fadeIn 0.6s ease-out;
+  animation: fadeIn 0.8s ease-out;
+  position: relative;
 }
+
+
 
 @keyframes fadeIn {
   from {
@@ -139,5 +249,73 @@ section {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes floatingGlow {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(2%, 3%) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-1%, 2%) scale(0.95);
+  }
+}
+
+@keyframes subtleGlow {
+  from {
+    filter: drop-shadow(0 0 15px rgba(0, 217, 255, 0.2));
+  }
+
+  to {
+    filter: drop-shadow(0 0 30px rgba(0, 217, 255, 0.5));
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 217, 255, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 15px rgba(0, 217, 255, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 217, 255, 0);
+  }
+}
+
+@keyframes autoScan {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  50% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes loadingProgress {
+  0% {
+    width: 0;
+  }
+
+  50% {
+    width: 70%;
+  }
+
+  100% {
+    width: 100%;
   }
 }
