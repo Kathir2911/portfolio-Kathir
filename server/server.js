@@ -9,8 +9,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB
-connectDB();
+// Note: In serverless (Vercel), connection is handled in api/index.js
+// For local development, we connect below when starting the server
 
 // Middleware
 app.use(cors());
@@ -290,10 +290,16 @@ app.get('/api/health', (req, res) => {
 
 // Start server if not running in Vercel (local development)
 if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => {
-    console.log(`🚀 Portfolio API server running on http://localhost:${PORT}`);
-    console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
-    console.log(`💾 Database: MongoDB Atlas`);
+  // Connect to MongoDB for local development
+  connectDB().then(() => {
+    app.listen(PORT, () => {
+      console.log(`🚀 Portfolio API server running on http://localhost:${PORT}`);
+      console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
+      console.log(`💾 Database: MongoDB Atlas`);
+    });
+  }).catch((error) => {
+    console.error('❌ Failed to start server:', error.message);
+    process.exit(1);
   });
 }
 
