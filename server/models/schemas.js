@@ -7,6 +7,7 @@ const profileSchema = new mongoose.Schema({
     email: { type: String, required: true },
     linkedin: String,
     github: String,
+    codolio: String,
     resume: String,
     bio: String,
 }, { timestamps: true });
@@ -40,8 +41,10 @@ const experienceSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const skillsSchema = new mongoose.Schema({
-    languages: [String],
-    frameworks: [String],
+    programmingLanguages: [String],
+    webTechnologies: [String],
+    databases: [String],
+    frameworksLibraries: [String],
     tools: [String],
     platforms: [String],
 }, { timestamps: true });

@@ -14,6 +14,7 @@ function Footer() {
                 <div className="footer-links">
                     <a href="https://github.com/Kathir2911" target="_blank" rel="noopener noreferrer">GitHub</a>
                     <a href="https://linkedin.com/in/kathir-ganesan" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://codolio.com/profile/Kathir2911/card" target="_blank" rel="noopener noreferrer">Codolio</a>
                     <a href="mailto:kathirganesan11@gmail.com">Email</a>
                 </div>
             </div>

@@ -6,6 +6,7 @@
         "email": "kathirganesan11@gmail.com",
         "linkedin": "kathir-ganesan",
         "github": "Kathir2911",
+        "codolio": "https://codolio.com/profile/Kathir2911/card",
         "bio": "Passionate Computer Science Engineering student with hands-on experience in full-stack development. Skilled in building dynamic web applications using modern frameworks and technologies."
     },
     "education": [
@@ -131,30 +132,31 @@
         }
     ],
     "skills": {
-        "languages": [
+        "programmingLanguages": [
             "Java",
-            "Python",
-            "JavaScript",
-            "C#",
-            "HTML/CSS",
+            "Python (Intermediate)",
+            "JavaScript (Intermediate)"
+        ],
+        "webTechnologies": [
+            "HTML",
+            "CSS"
+        ],
+        "databases": [
             "MySQL"
         ],
-        "frameworks": [
-            "Express.js",
+        "frameworksLibraries": [
             "React.js",
-            "Mongoose"
+            "Express.js"
         ],
         "tools": [
             "Git",
-            "Postman",
-            "MongoDB Atlas"
+            "Postman"
         ],
         "platforms": [
             "GitHub",
             "VS Code",
             "Jupyter Notebook",
-            "MySQL Workbench",
-            "Figma"
+            "MySQL Workbench"
         ]
     },
     "certifications": [

@@ -86,6 +86,14 @@
     margin-bottom: var(--spacing-xl);
 }
 
+.admin-form label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
 .admin-form input,
 .admin-form textarea {
     width: 100%;

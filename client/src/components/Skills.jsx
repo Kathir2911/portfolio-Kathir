@@ -28,29 +28,51 @@ function Skills() {
             <div className="container">
                 <h2>Technical Skills</h2>
                 <div className="skills-container">
-                    {skills.languages && (
+                    {skills.programmingLanguages && skills.programmingLanguages.length > 0 && (
                         <div className="skills-category">
-                            <h3>Languages</h3>
+                            <h3>Programming Languages</h3>
                             <div className="skills-list">
-                                {skills.languages.map((skill, index) => (
+                                {skills.programmingLanguages.map((skill, index) => (
                                     <span key={index} className="skill-item">{skill}</span>
                                 ))}
                             </div>
                         </div>
                     )}
 
-                    {skills.frameworks && (
+                    {skills.webTechnologies && skills.webTechnologies.length > 0 && (
+                        <div className="skills-category">
+                            <h3>Web Technologies</h3>
+                            <div className="skills-list">
+                                {skills.webTechnologies.map((skill, index) => (
+                                    <span key={index} className="skill-item">{skill}</span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {skills.databases && skills.databases.length > 0 && (
+                        <div className="skills-category">
+                            <h3>Databases</h3>
+                            <div className="skills-list">
+                                {skills.databases.map((skill, index) => (
+                                    <span key={index} className="skill-item">{skill}</span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {skills.frameworksLibraries && skills.frameworksLibraries.length > 0 && (
                         <div className="skills-category">
                             <h3>Frameworks & Libraries</h3>
                             <div className="skills-list">
-                                {skills.frameworks.map((skill, index) => (
+                                {skills.frameworksLibraries.map((skill, index) => (
                                     <span key={index} className="skill-item">{skill}</span>
                                 ))}
                             </div>
                         </div>
                     )}
 
-                    {skills.tools && (
+                    {skills.tools && skills.tools.length > 0 && (
                         <div className="skills-category">
                             <h3>Tools</h3>
                             <div className="skills-list">
@@ -61,7 +83,7 @@ function Skills() {
                         </div>
                     )}
 
-                    {skills.platforms && (
+                    {skills.platforms && skills.platforms.length > 0 && (
                         <div className="skills-category">
                             <h3>Platforms</h3>
                             <div className="skills-list">

@@ -9,12 +9,12 @@ function App() {
     const [certifications, setCertifications] = useState([]);
     const [experience, setExperience] = useState([]);
     const [education, setEducation] = useState([]);
-    const [clients, setClients] = useState([]);
+    const [skills, setSkills] = useState(null);
     const [loading, setLoading] = useState(false);
 
     // Form states
     const [profileForm, setProfileForm] = useState({
-        name: '', title: '', bio: '', email: '', phone: '', linkedin: '', github: '', resume: ''
+        name: '', title: '', bio: '', email: '', phone: '', linkedin: '', github: '', codolio: '', resume: ''
     });
     const [projectForm, setProjectForm] = useState({
         title: '', description: '', technologies: '', github: '', link: '', date: '', highlights: ''
@@ -28,8 +28,8 @@ function App() {
     const [eduForm, setEduForm] = useState({
         institution: '', degree: '', cgpa: '', percentage: '', year: '', current: false
     });
-    const [clientForm, setClientForm] = useState({
-        name: '', logo: '', link: ''
+    const [skillsForm, setSkillsForm] = useState({
+        programmingLanguages: '', webTechnologies: '', databases: '', frameworksLibraries: '', tools: '', platforms: ''
     });
 
     const [editingId, setEditingId] = useState(null);
@@ -53,6 +53,7 @@ function App() {
                         phone: res.data.phone || '',
                         linkedin: res.data.linkedin || '',
                         github: res.data.github || '',
+                        codolio: res.data.codolio || '',
                         resume: res.data.resume || ''
                     });
                 }
@@ -68,9 +69,19 @@ function App() {
             } else if (activeTab === 'education') {
                 const res = await portfolioAPI.getEducation();
                 setEducation(res.data);
-            } else if (activeTab === 'clients') {
-                const res = await portfolioAPI.getClients();
-                setClients(res.data);
+            } else if (activeTab === 'skills') {
+                const res = await portfolioAPI.getSkills();
+                setSkills(res.data);
+                if (res.data) {
+                    setSkillsForm({
+                        programmingLanguages: (res.data.programmingLanguages || []).join(', '),
+                        webTechnologies: (res.data.webTechnologies || []).join(', '),
+                        databases: (res.data.databases || []).join(', '),
+                        frameworksLibraries: (res.data.frameworksLibraries || []).join(', '),
+                        tools: (res.data.tools || []).join(', '),
+                        platforms: (res.data.platforms || []).join(', ')
+                    });
+                }
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -314,52 +325,28 @@ function App() {
         setEditingId(null);
     };
 
-    // Client handlers
-    const handleClientSubmit = async (e) => {
+    // Skills handlers
+    const handleSkillsSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         try {
-            if (editingId) {
-                await portfolioAPI.updateClient(editingId, clientForm);
-            } else {
-                await portfolioAPI.addClient(clientForm);
-            }
-            resetClientForm();
+            const data = {
+                programmingLanguages: skillsForm.programmingLanguages ? skillsForm.programmingLanguages.split(',').map(s => s.trim()).filter(Boolean) : [],
+                webTechnologies: skillsForm.webTechnologies ? skillsForm.webTechnologies.split(',').map(s => s.trim()).filter(Boolean) : [],
+                databases: skillsForm.databases ? skillsForm.databases.split(',').map(s => s.trim()).filter(Boolean) : [],
+                frameworksLibraries: skillsForm.frameworksLibraries ? skillsForm.frameworksLibraries.split(',').map(s => s.trim()).filter(Boolean) : [],
+                tools: skillsForm.tools ? skillsForm.tools.split(',').map(s => s.trim()).filter(Boolean) : [],
+                platforms: skillsForm.platforms ? skillsForm.platforms.split(',').map(s => s.trim()).filter(Boolean) : []
+            };
+            await portfolioAPI.updateSkills(data);
+            alert('Skills updated!');
             fetchData();
-            alert(editingId ? 'Client updated!' : 'Client added!');
         } catch (error) {
-            alert('Error saving client');
+            console.error('Error updating skills:', error);
+            alert('Error updating skills');
         } finally {
             setLoading(false);
         }
-    };
-
-    const handleDeleteClient = async (id) => {
-        if (!confirm('Delete this client?')) return;
-        setLoading(true);
-        try {
-            await portfolioAPI.deleteClient(id);
-            fetchData();
-            alert('Client deleted!');
-        } catch (error) {
-            alert('Error deleting client');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const editClient = (client) => {
-        setClientForm({
-            name: client.name,
-            logo: client.logo,
-            link: client.link || ''
-        });
-        setEditingId(client._id);
-    };
-
-    const resetClientForm = () => {
-        setClientForm({ name: '', logo: '', link: '' });
-        setEditingId(null);
     };
 
     return (
@@ -385,8 +372,8 @@ function App() {
                 <button className={activeTab === 'education' ? 'active' : ''} onClick={() => setActiveTab('education')}>
                     Education
                 </button>
-                <button className={activeTab === 'clients' ? 'active' : ''} onClick={() => setActiveTab('clients')}>
-                    Clients
+                <button className={activeTab === 'skills' ? 'active' : ''} onClick={() => setActiveTab('skills')}>
+                    Skills
                 </button>
             </div>
 
@@ -440,6 +427,12 @@ function App() {
                                 placeholder="GitHub Username"
                                 value={profileForm.github}
                                 onChange={(e) => setProfileForm({ ...profileForm, github: e.target.value })}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Codolio Card URL"
+                                value={profileForm.codolio}
+                                onChange={(e) => setProfileForm({ ...profileForm, codolio: e.target.value })}
                             />
                             <input
                                 type="text"
@@ -739,58 +732,134 @@ function App() {
                     </div>
                 )}
 
-                {/* CLIENTS TAB */}
-                {activeTab === 'clients' && (
+                {/* EDUCATION TAB */}
+                {activeTab === 'education' && (
                     <div className="admin-section">
-                        <h2>{editingId ? 'Edit Client' : 'Add New Client'}</h2>
-                        <form onSubmit={handleClientSubmit} className="admin-form">
+                        <h2>{editingId ? 'Edit Education' : 'Add New Education'}</h2>
+                        <form onSubmit={handleEduSubmit} className="admin-form">
                             <input
                                 type="text"
-                                placeholder="Client Name"
-                                value={clientForm.name}
-                                onChange={(e) => setClientForm({ ...clientForm, name: e.target.value })}
+                                placeholder="Institution Name"
+                                value={eduForm.institution}
+                                onChange={(e) => setEduForm({ ...eduForm, institution: e.target.value })}
                                 required
                             />
                             <input
                                 type="text"
-                                placeholder="Logo URL (Image Link)"
-                                value={clientForm.logo}
-                                onChange={(e) => setClientForm({ ...clientForm, logo: e.target.value })}
+                                placeholder="Degree/Program"
+                                value={eduForm.degree}
+                                onChange={(e) => setEduForm({ ...eduForm, degree: e.target.value })}
                                 required
                             />
                             <input
                                 type="text"
-                                placeholder="Website Link (optional)"
-                                value={clientForm.link}
-                                onChange={(e) => setClientForm({ ...clientForm, link: e.target.value })}
+                                placeholder="CGPA (optional)"
+                                value={eduForm.cgpa}
+                                onChange={(e) => setEduForm({ ...eduForm, cgpa: e.target.value })}
                             />
+                            <input
+                                type="text"
+                                placeholder="Percentage (optional)"
+                                value={eduForm.percentage}
+                                onChange={(e) => setEduForm({ ...eduForm, percentage: e.target.value })}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Year (e.g., 2027)"
+                                value={eduForm.year}
+                                onChange={(e) => setEduForm({ ...eduForm, year: e.target.value })}
+                                required
+                            />
+                            <label className="checkbox-label">
+                                <input
+                                    type="checkbox"
+                                    checked={eduForm.current}
+                                    onChange={(e) => setEduForm({ ...eduForm, current: e.target.checked })}
+                                />
+                                Currently studying here
+                            </label>
                             <div className="form-actions">
                                 <button type="submit" disabled={loading}>
-                                    {loading ? 'Saving...' : (editingId ? 'Update Client' : 'Add Client')}
+                                    {loading ? 'Saving...' : (editingId ? 'Update Education' : 'Add Education')}
                                 </button>
                                 {editingId && (
-                                    <button type="button" onClick={resetClientForm} className="cancel-btn">
+                                    <button type="button" onClick={resetEduForm} className="cancel-btn">
                                         Cancel
                                     </button>
                                 )}
                             </div>
                         </form>
 
-                        <h2>Existing Clients</h2>
-                        <div className="items-list" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
-                            {clients.map(client => (
-                                <div key={client._id} className="item-card">
-                                    <div style={{ padding: '10px', background: '#fff', borderRadius: '4px', textAlign: 'center', marginBottom: '10px' }}>
-                                        <img src={client.logo} alt={client.name} style={{ maxHeight: '50px', maxWidth: '100%' }} />
-                                    </div>
-                                    <h3>{client.name}</h3>
+                        <h2>Existing Education</h2>
+                        <div className="items-list">
+                            {education.map(edu => (
+                                <div key={edu._id} className="item-card">
+                                    <h3>{edu.institution}</h3>
+                                    <p>{edu.degree} - {edu.year}</p>
+                                    {edu.cgpa && <p>CGPA: {edu.cgpa}</p>}
                                     <div className="item-actions">
-                                        <button onClick={() => editClient(client)} className="edit-btn">Edit</button>
-                                        <button onClick={() => handleDeleteClient(client._id)} className="delete-btn">Delete</button>
+                                        <button onClick={() => editEdu(edu)} className="edit-btn">Edit</button>
+                                        <button onClick={() => handleDeleteEdu(edu._id)} className="delete-btn">Delete</button>
                                     </div>
                                 </div>
                             ))}
                         </div>
+                    </div>
+                )}
+
+                {/* SKILLS TAB */}
+                {activeTab === 'skills' && (
+                    <div className="admin-section">
+                        <h2>Technical Skills</h2>
+                        <form onSubmit={handleSkillsSubmit} className="admin-form">
+                            <label>Programming Languages (comma separated)</label>
+                            <input
+                                type="text"
+                                placeholder="e.g., Python, JavaScript, Java"
+                                value={skillsForm.programmingLanguages}
+                                onChange={(e) => setSkillsForm({ ...skillsForm, programmingLanguages: e.target.value })}
+                            />
+                            <label>Web Technologies</label>
+                            <input
+                                type="text"
+                                placeholder="e.g., HTML, CSS"
+                                value={skillsForm.webTechnologies}
+                                onChange={(e) => setSkillsForm({ ...skillsForm, webTechnologies: e.target.value })}
+                            />
+                            <label>Databases</label>
+                            <input
+                                type="text"
+                                placeholder="e.g., MySQL, MongoDB"
+                                value={skillsForm.databases}
+                                onChange={(e) => setSkillsForm({ ...skillsForm, databases: e.target.value })}
+                            />
+                            <label>Frameworks/Libraries</label>
+                            <input
+                                type="text"
+                                placeholder="e.g., React.js, Express.js"
+                                value={skillsForm.frameworksLibraries}
+                                onChange={(e) => setSkillsForm({ ...skillsForm, frameworksLibraries: e.target.value })}
+                            />
+                            <label>Tools</label>
+                            <input
+                                type="text"
+                                placeholder="e.g., Git, Postman"
+                                value={skillsForm.tools}
+                                onChange={(e) => setSkillsForm({ ...skillsForm, tools: e.target.value })}
+                            />
+                            <label>Platforms</label>
+                            <input
+                                type="text"
+                                placeholder="e.g., GitHub, VS Code"
+                                value={skillsForm.platforms}
+                                onChange={(e) => setSkillsForm({ ...skillsForm, platforms: e.target.value })}
+                            />
+                            <div className="form-actions">
+                                <button type="submit" disabled={loading}>
+                                    {loading ? 'Saving...' : 'Save Skills'}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 )}
             </div>

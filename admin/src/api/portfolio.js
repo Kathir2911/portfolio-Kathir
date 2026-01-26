@@ -42,11 +42,6 @@ export const portfolioAPI = {
   updateCertification: (id, data) => api.put(`/certifications/${id}`, data),
   deleteCertification: (id) => api.delete(`/certifications/${id}`),
 
-  // Clients
-  getClients: () => api.get('/clients'),
-  addClient: (data) => api.post('/clients', data),
-  updateClient: (id, data) => api.put(`/clients/${id}`, data),
-  deleteClient: (id) => api.delete(`/clients/${id}`),
 };
 
 export default api;
