@@ -173,22 +173,29 @@ app.delete('/api/experience/:id', async (req, res) => {
 app.get('/api/skills', async (req, res) => {
   try {
     const skills = await Skills.findOne();
+    console.log('📖 GET /api/skills - Retrieved:', skills ? 'Skills found' : 'No skills found');
     res.json(skills || {});
   } catch (error) {
+    console.error('❌ GET /api/skills error:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
 
 app.put('/api/skills', async (req, res) => {
   try {
+    console.log('📝 PUT /api/skills - Received data:', req.body);
     let skills = await Skills.findOne();
     if (skills) {
+      console.log('🔄 Updating existing skills document');
       skills = await Skills.findByIdAndUpdate(skills._id, req.body, { new: true });
     } else {
+      console.log('✨ Creating new skills document');
       skills = await Skills.create(req.body);
     }
+    console.log('✅ Skills saved successfully:', skills);
     res.json(skills);
   } catch (error) {
+    console.error('❌ PUT /api/skills error:', error.message);
     res.status(500).json({ error: error.message });
   }
 });

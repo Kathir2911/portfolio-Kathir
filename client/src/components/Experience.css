@@ -1,8 +1,12 @@
+#experience {
+    background: linear-gradient(180deg, transparent 0%, rgba(6, 182, 212, 0.02) 100%);
+}
+
 .experience-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--spacing-lg);
-    margin-top: var(--spacing-lg);
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
 }
 
 @media (min-width: 768px) {
@@ -11,29 +15,40 @@
     }
 }
 
-
-
 .experience-card {
-    --accent-color: #f43f5e;
-    --shadow-color: rgba(244, 63, 94, 0.5);
-
-    background: rgba(26, 27, 38, 0.4);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(244, 63, 94, 0.1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 10px rgba(244, 63, 94, 0.05);
-    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
     padding: var(--spacing-lg);
     transition: all var(--transition-smooth);
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.experience-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--accent-gradient-alt);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition-smooth);
+}
+
+.experience-card:hover::before {
+    transform: scaleX(1);
 }
 
 .experience-card:hover {
-    border-color: var(--accent-color);
-    background: rgba(31, 32, 48, 0.6);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 40px var(--shadow-color);
-    transform: translateY(-8px) scale(1.02);
+    border-color: var(--accent-secondary);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-2xl), 0 0 0 3px rgba(6, 182, 212, 0.1);
+    background: var(--bg-card-hover);
 }
 
 .experience-card .card-header {
@@ -44,23 +59,33 @@
     margin-bottom: var(--spacing-md);
 }
 
+.experience-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
 .company {
     color: var(--text-muted);
     font-size: 0.95rem;
     margin-top: 0.25rem;
+    font-weight: 500;
 }
 
 .duration {
-    color: var(--accent-color);
+    color: var(--accent-secondary);
     font-size: 0.875rem;
     font-weight: 600;
     white-space: nowrap;
+    background: rgba(6, 182, 212, 0.1);
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-sm);
 }
 
 .description {
     color: var(--text-secondary);
     margin-bottom: var(--spacing-md);
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .highlights {
@@ -71,16 +96,17 @@
 .highlights li {
     color: var(--text-secondary);
     padding-left: var(--spacing-md);
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: 0.5rem;
     position: relative;
     font-size: 0.9rem;
+    line-height: 1.6;
 }
 
 .highlights li::before {
-    content: '▹';
+    content: '→';
     position: absolute;
     left: 0;
-    color: var(--accent-color);
+    color: var(--accent-secondary);
     font-weight: bold;
 }
 
@@ -92,13 +118,4 @@
     .duration {
         white-space: normal;
     }
-}
-
-#experience h2::after {
-    background: #f43f5e;
-    box-shadow: 0 0 15px rgba(244, 63, 94, 0.5);
-}
-
-#experience h2 {
-    text-shadow: 0 0 20px rgba(244, 63, 94, 0.3);
 }

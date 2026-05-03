@@ -69,7 +69,7 @@ function Hero() {
                 {profile.resume && (
                     <div className="resume-container">
                         <a href={profile.resume} target="_blank" rel="noopener noreferrer" className="resume-btn">
-                            View Resume
+                            <span>View Resume</span>
                         </a>
                     </div>
                 )}

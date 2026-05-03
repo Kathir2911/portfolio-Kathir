@@ -1,57 +1,81 @@
+#skills {
+    background: linear-gradient(180deg, rgba(79, 70, 229, 0.02) 0%, transparent 100%);
+}
+
 .skills-container {
     margin-top: var(--spacing-lg);
+    display: grid;
+    gap: var(--spacing-md);
 }
 
 .skills-category {
-    margin-bottom: var(--spacing-xl);
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    transition: all var(--transition-smooth);
+}
+
+.skills-category:hover {
+    border-color: var(--accent-primary);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
 }
 
 .skills-category h3 {
-    font-size: 1rem;
-    color: #8b5cf6;
-    margin-bottom: var(--spacing-md);
+    font-size: 0.875rem;
+    color: var(--accent-primary);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    font-weight: 600;
-    text-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.skills-category h3::before {
+    content: '';
+    width: 3px;
+    height: 1rem;
+    background: var(--accent-gradient);
+    border-radius: 2px;
 }
 
 .skills-list {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--spacing-sm);
+    gap: 0.5rem;
 }
 
 .skill-item {
-    --accent-color: #8b5cf6;
-    --shadow-color: rgba(139, 92, 246, 0.5);
-
-    padding: var(--spacing-xs) var(--spacing-md);
-    background: rgba(26, 27, 38, 0.4);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border: 1px solid rgba(139, 92, 246, 0.15);
-    box-shadow: 0 0 10px rgba(139, 92, 246, 0.05);
-    border-radius: var(--radius-md);
+    padding: 0.4rem 0.75rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
     color: var(--text-secondary);
     font-weight: 500;
+    font-size: 0.85rem;
     transition: all var(--transition-smooth);
     cursor: default;
 }
 
 .skill-item:hover {
-    border-color: var(--accent-color);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 0 20px var(--shadow-color);
-    background: rgba(139, 92, 246, 0.15);
+    border-color: var(--accent-primary);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+    background: rgba(79, 70, 229, 0.1);
 }
 
-#skills h2::after {
-    background: #8b5cf6;
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+@media (min-width: 768px) {
+    .skills-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-#skills h2 {
-    text-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+@media (min-width: 1024px) {
+    .skills-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }

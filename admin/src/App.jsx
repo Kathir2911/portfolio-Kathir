@@ -338,12 +338,29 @@ function App() {
                 tools: skillsForm.tools ? skillsForm.tools.split(',').map(s => s.trim()).filter(Boolean) : [],
                 platforms: skillsForm.platforms ? skillsForm.platforms.split(',').map(s => s.trim()).filter(Boolean) : []
             };
-            await portfolioAPI.updateSkills(data);
-            alert('Skills updated!');
-            fetchData();
+            
+            console.log('📤 Submitting skills data:', data);
+            const response = await portfolioAPI.updateSkills(data);
+            console.log('✅ Skills update response:', response.data);
+            
+            // Update local state with the response
+            setSkills(response.data);
+            
+            // Update form with the saved data
+            setSkillsForm({
+                programmingLanguages: (response.data.programmingLanguages || []).join(', '),
+                webTechnologies: (response.data.webTechnologies || []).join(', '),
+                databases: (response.data.databases || []).join(', '),
+                frameworksLibraries: (response.data.frameworksLibraries || []).join(', '),
+                tools: (response.data.tools || []).join(', '),
+                platforms: (response.data.platforms || []).join(', ')
+            });
+            
+            alert('✅ Skills updated successfully!');
         } catch (error) {
-            console.error('Error updating skills:', error);
-            alert('Error updating skills');
+            console.error('❌ Error updating skills:', error);
+            console.error('Error details:', error.response?.data || error.message);
+            alert(`❌ Error updating skills: ${error.response?.data?.error || error.message}`);
         } finally {
             setLoading(false);
         }
@@ -811,6 +828,44 @@ function App() {
                 {activeTab === 'skills' && (
                     <div className="admin-section">
                         <h2>Technical Skills</h2>
+                        {skills && (
+                            <div style={{ 
+                                background: 'var(--bg-secondary, #1a1a2e)', 
+                                padding: '1rem', 
+                                borderRadius: '8px', 
+                                marginBottom: '1.5rem',
+                                border: '1px solid var(--border-color, #2a2a3e)'
+                            }}>
+                                <h3 style={{ fontSize: '0.9rem', color: 'var(--text-muted, #888)', marginBottom: '0.5rem' }}>
+                                    Current Skills in Database
+                                </h3>
+                                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary, #ccc)' }}>
+                                    {skills.programmingLanguages?.length > 0 && (
+                                        <p><strong>Programming:</strong> {skills.programmingLanguages.join(', ')}</p>
+                                    )}
+                                    {skills.webTechnologies?.length > 0 && (
+                                        <p><strong>Web:</strong> {skills.webTechnologies.join(', ')}</p>
+                                    )}
+                                    {skills.databases?.length > 0 && (
+                                        <p><strong>Databases:</strong> {skills.databases.join(', ')}</p>
+                                    )}
+                                    {skills.frameworksLibraries?.length > 0 && (
+                                        <p><strong>Frameworks:</strong> {skills.frameworksLibraries.join(', ')}</p>
+                                    )}
+                                    {skills.tools?.length > 0 && (
+                                        <p><strong>Tools:</strong> {skills.tools.join(', ')}</p>
+                                    )}
+                                    {skills.platforms?.length > 0 && (
+                                        <p><strong>Platforms:</strong> {skills.platforms.join(', ')}</p>
+                                    )}
+                                    {!skills.programmingLanguages?.length && !skills.webTechnologies?.length && 
+                                     !skills.databases?.length && !skills.frameworksLibraries?.length && 
+                                     !skills.tools?.length && !skills.platforms?.length && (
+                                        <p style={{ color: 'var(--text-muted, #888)' }}>No skills data found</p>
+                                    )}
+                                </div>
+                            </div>
+                        )}
                         <form onSubmit={handleSkillsSubmit} className="admin-form">
                             <label>Programming Languages (comma separated)</label>
                             <input
